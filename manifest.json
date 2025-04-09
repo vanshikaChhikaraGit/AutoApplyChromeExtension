@@ -1,10 +1,31 @@
 {
-    "name":"Hello Extensions",
-    "description":"Base Level Extension",
-    "version":"1.0",
-    "manifest_version":3,
-    "action":{
-        "default_popup":"hello.html",
-        "default_icon":"logo.png"
+  "name": "Auto Apply",
+  "description": "Auto fill your applications with just one-click!",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "logo.png"
+  },
+  "permissions": [
+    "storage",
+    "tabs",
+    "scripting"
+  ],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
     }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["logo.png"],
+      "matches": ["<all_urls>"]
+    }
+  ]
 }
