@@ -8,11 +8,16 @@
     "default_icon": "logo.png"
   },
   "permissions": [
+    "cookies",
     "storage",
     "tabs",
     "scripting"
   ],
-  "host_permissions": ["<all_urls>"],
+  "host_permissions": [
+    "http://localhost/*",
+    "https://localhost/*",
+    "<all_urls>"
+  ],
   "background": {
     "service_worker": "background.js"
   },

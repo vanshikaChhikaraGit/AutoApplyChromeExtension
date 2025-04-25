@@ -88,21 +88,34 @@ function levDist(a, b) {
     return dp[a.length][b.length];
 }
 
-
-chrome.runtime.onMessage.addListener((request)=>{
-    console.log('content.js')
-    if(request.action==='fillForm'){
-      const data = request.data
-      if (
-        window.location.hostname.includes("docs.google.com") &&
-        window.location.pathname.includes("/forms")
-      ) {
-        autofillGoogleForm(data);
-      } else {
-        autofillGenericForm(data);
-      }
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.action === 'fillForm') {
+        console.log('fillForm received in content script');
+        const data = request.data;
+        if (window.location.hostname.includes("docs.google.com") && window.location.pathname.includes("/forms")) {
+            autofillGoogleForm(data.userInfo);
+        } else {
+            autofillGenericForm(data.userInfo);
+        }
+        sendResponse({ success: true }); // This ensures the message is acknowledged
     }
-})
+});
+
+// chrome.runtime.onMessage.addListener((request)=>{
+//     console.log('content.js')
+//     if(request.action==='fillForm'){
+//       const data = request.data
+//       console.log(data)
+//       if (
+//         window.location.hostname.includes("docs.google.com") &&
+//         window.location.pathname.includes("/forms")
+//       ) {
+//         autofillGoogleForm(data);
+//       } else {
+//         autofillGenericForm(data);
+//       }
+//     }
+// })
 let form;
 function autofillGoogleForm(data) {
     form = document.querySelector('form')
